@@ -1,4 +1,4 @@
-Name: React CI Pipeline
+name: React CI Pipeline
 
 on:
   push:
