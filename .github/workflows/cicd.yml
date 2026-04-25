@@ -20,3 +20,15 @@ jobs:
 
     - name: Push Docker image
       run: docker push ${{ secrets.DOCKER_USERNAME }}/react-devops-app
+
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_KEY }}
+        script: |
+          docker pull ${{ secrets.DOCKER_USERNAME }}/react-devops-app
+          docker stop react-devops-app || true
+          docker rm react-devops-app || true
+          docker run -d -p 80:80 --name react-devops-app ${{ secrets.DOCKER_USERNAME }}/react-devops-app
