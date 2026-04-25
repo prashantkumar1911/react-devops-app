@@ -31,4 +31,6 @@ jobs:
           docker pull ${{ secrets.DOCKER_USERNAME }}/react-devops-app
           docker stop react-devops-app || true
           docker rm react-devops-app || true
+          docker stop $(docker ps -q) || true
+          docker rm $(docker ps -aq) || true
           docker run -d -p 80:80 --name react-devops-app ${{ secrets.DOCKER_USERNAME }}/react-devops-app
